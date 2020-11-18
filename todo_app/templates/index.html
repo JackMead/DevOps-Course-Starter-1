@@ -3,17 +3,17 @@
 
 {% block content %}
   <div class="jumbotron">
-    <h1 class="display-4">To-Do App</h1>
-    <p class="lead">Just another to-do app.</p>
+    <h1 class="display-4">Luke Woods' To-Do App</h1>
+    <p class="lead">To-Do app to organise your day.</p>
   </div>
 
-  <form action="" method="POST" class="form-example">
+  <form action="/add_new" method="POST" class="form-example">
     <div class="form-example">
-      <label for="title">Enter the ToDo item: </label>
+      <label for="title">Enter new To-Do item: </label>
       <input type="title" name="title" id="title" required>
     </div>
     <div class="form-example">
-      <input type="submit" value="Add ToDo item!">
+      <input type="submit" id="addnew" class="btn btn-dark" value="Add To-Do item!">
     </div>
   </form>
 
@@ -21,10 +21,35 @@
     <div class="col-md-12">
       <h2>Items</h2>
       <ul class="list-group mb-4">
-        {% for item in items %}
-          <li>{{item.title}}</li>
-        {% endfor %}      
+        <table class="table table-bordered">
+          <thead class="thead-light">
+          <tr>
+            <th scope=col>ID</th>
+            <th scope=col>Title</th>
+            <th scope=col>Status</th>
+            <th scope=col>Mark as complete</th>
+            <th scope=col>Delete</th>
+          </tr>
+          </thead>
+          <form action="/update" method="POST" class="form-example">
+          {% for item in items %}
+          <tr>
+            <th scope=row>{{item.id}}</th>
+            <td>{{item.title}}</td>
+            <td>{{item.status}}</td>
+            <td><input type="hidden" name="update_item_id_{{item.id}}" value="{{ item.id }}">
+                <input type="checkbox" name="updatecheck_{{item.id}}" />&nbsp;</td>
+            <td><input type="hidden" name="remove_item_id_{{item.id}}" value="{{ item.id }}">
+                <input type="checkbox" name="removecheck_{{item.id}}" />&nbsp;</td>
+          </tr>
+          {% endfor %}
+        </table>  
       </ul>
     </div>
+    <div class="form-example">
+      <input type="submit" id="submit" class="btn btn-dark" value="Submit">
+    </div>
+    </form>
   </div>
+  
 {% endblock %}

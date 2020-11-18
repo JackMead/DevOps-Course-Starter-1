@@ -67,3 +67,13 @@ def save_item(item):
     session['items'] = updated_items
 
     return item
+
+def remove_item(itemtoremove):
+    allitems = get_items()
+    for item in range(len(allitems)):
+        if allitems[item]['id'] == itemtoremove['id']:
+            del allitems[item]
+            break
+    session['items'] = allitems
+    
+    return
