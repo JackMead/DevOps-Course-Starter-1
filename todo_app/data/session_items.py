@@ -70,10 +70,8 @@ def save_item(item):
 
 def remove_item(itemtoremove):
     allitems = get_items()
-    for item in range(len(allitems)):
-        if allitems[item]['id'] == itemtoremove['id']:
-            del allitems[item]
+    for item in allitems:
+        if item['id'] == itemtoremove['id']:
+            allitems.remove(item)
             break
     session['items'] = allitems
-    
-    return

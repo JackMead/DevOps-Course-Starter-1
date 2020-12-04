@@ -37,10 +37,8 @@
             <th scope=row>{{item.id}}</th>
             <td>{{item.title}}</td>
             <td>{{item.status}}</td>
-            <td><input type="hidden" name="update_item_id_{{item.id}}" value="{{ item.id }}">
-                <input type="checkbox" name="updatecheck_{{item.id}}" />&nbsp;</td>
-            <td><input type="hidden" name="remove_item_id_{{item.id}}" value="{{ item.id }}">
-                <input type="checkbox" name="removecheck_{{item.id}}" />&nbsp;</td>
+            <td><input type="checkbox" name="updatecheck_{{item.id}}" />&nbsp;</td>
+            <td><input type="checkbox" name="removecheck_{{item.id}}" />&nbsp;</td>
           </tr>
           {% endfor %}
         </table>  
