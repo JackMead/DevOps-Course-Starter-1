@@ -1,10 +1,7 @@
 import requests
 import json
-import configparser
 import os
 
-#apiconfig = configparser.ConfigParser()
-#apiconfig.read('config.ini')
 credkey = os.environ.get('KEY')
 credtoken = os.environ.get('TOKEN')
 board_id_config = os.environ.get('BOARDID')
@@ -49,9 +46,5 @@ def create_new_trello_card(card_name):
     requests.post('https://api.trello.com/1/cards', params=createcardparams)
 
 def move_trello_card(card_id, new_list_id):
-    '''lists = get_trello_lists()
-    for l in lists:
-        if l['id'] == new_list_id:
-            desired_list_id = l['id']'''
     movecardparams = {'key': credkey, 'token': credtoken, 'idList': new_list_id}
     requests.put(f'https://api.trello.com/1/cards/{card_id}', params=movecardparams)
