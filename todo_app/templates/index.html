@@ -11,6 +11,8 @@
     <div class="form-example">
       <label for="title">Enter new To-Do item: </label>
       <input type="title" name="title" id="title" required>
+      <label for="title">Enter a description: </label>
+      <input type="title" name="desc" id="desc" required>
     </div>
     <div class="form-example">
       <input type="submit" id="addnew" class="btn btn-dark" value="Add To-Do item!">
@@ -19,30 +21,86 @@
 
   <div class="row">
     <div class="col-md-12">
-      <h2>Items</h2>
+        <h2>To Do Items</h2>
+        <ul class="list-group mb-4">
+          <table class="table table-bordered">
+            <thead class="thead-light">
+            <tr>
+              <th scope=col>ID</th>
+              <th scope=col>Title</th>
+              <th scope=col>Due Date</th>
+              <th scope=col>Description</th>
+              <th scope=col>Last Modified</th>
+              <th scope=col>Mark as In Progress</th>
+              <th scope=col>Mark as Complete</th>
+              <th scope=col>Archive Task</th>
+            </tr>
+            </thead>
+            <form action="/update" method="POST" class="form-example">
+            {% for item in view_model.todo %}
+            <tr>
+              <th scope=row>{{item.id}}</th>
+              <td>{{item.name}}</td>
+              <td>{{item.due}}</td>
+              <td>{{item.description}}</td>
+              <td>{{item.modified}}</td>
+              <td><input type="checkbox" name="inprogcheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+              <td><input type="checkbox" name="donecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+              <td><input type="checkbox" name="archivecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+            </tr>
+            {% endfor %}
+          </table>  
+        </ul>
+        <h2>Doing Items</h2>
       <ul class="list-group mb-4">
         <table class="table table-bordered">
           <thead class="thead-light">
           <tr>
             <th scope=col>ID</th>
             <th scope=col>Title</th>
-            <th scope=col>Status</th>
-            <th scope=col>Mark as In Progress</th>
+            <th scope=col>Due Date</th>
+            <th scope=col>Description</th>
+            <th scope=col>Last Modified</th>
             <th scope=col>Mark as Complete</th>
+            <th scope=col>Archive Task</th>
           </tr>
           </thead>
           <form action="/update" method="POST" class="form-example">
-          {% for item in items %}
+          {% for item in view_model.doing %}
           <tr>
             <th scope=row>{{item.id}}</th>
             <td>{{item.name}}</td>
-            {% for list in lists %}
-              {% if item.idList == list.id %}
-                <td>{{list.name}}</td>
-              {% endif %}
-            {% endfor %}
-            <td><input type="checkbox" name="inprogcheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+            <td>{{item.due}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.modified}}</td>
             <td><input type="checkbox" name="donecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+            <td><input type="checkbox" name="archivecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+          </tr>
+          {% endfor %}
+        </table>  
+      </ul>
+      <h2>Items Completed Today</h2>
+      <ul class="list-group mb-4">
+        <table class="table table-bordered">
+          <thead class="thead-light">
+          <tr>
+            <th scope=col>ID</th>
+            <th scope=col>Title</th>
+            <th scope=col>Due Date</th>
+            <th scope=col>Description</th>
+            <th scope=col>Last Modified</th>
+            <th scope=col>Archive Task</th>
+          </tr>
+          </thead>
+          <form action="/update" method="POST" class="form-example">
+          {% for item in view_model.done_today %}
+          <tr>
+            <th scope=row>{{item.id}}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.due}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.modified}}</td>
+            <td><input type="checkbox" name="archivecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
           </tr>
           {% endfor %}
         </table>  
