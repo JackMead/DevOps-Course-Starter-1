@@ -21,6 +21,7 @@
 
   <div class="row">
     <div class="col-md-12">
+      <br>
         <h2>To Do Items</h2>
         <ul class="list-group mb-4">
           <table class="table table-bordered">
@@ -33,7 +34,7 @@
               <th scope=col>Last Modified</th>
               <th scope=col>Mark as In Progress</th>
               <th scope=col>Mark as Complete</th>
-              <th scope=col>Archive Task</th>
+              <th scope=col>Delete Task</th>
             </tr>
             </thead>
             <form action="/update" method="POST" class="form-example">
@@ -46,7 +47,7 @@
               <td>{{item.modified}}</td>
               <td><input type="checkbox" name="inprogcheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
               <td><input type="checkbox" name="donecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
-              <td><input type="checkbox" name="archivecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+              <td><input type="checkbox" name="deletecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
             </tr>
             {% endfor %}
           </table>  
@@ -62,7 +63,7 @@
             <th scope=col>Description</th>
             <th scope=col>Last Modified</th>
             <th scope=col>Mark as Complete</th>
-            <th scope=col>Archive Task</th>
+            <th scope=col>Delete Task</th>
           </tr>
           </thead>
           <form action="/update" method="POST" class="form-example">
@@ -74,12 +75,12 @@
             <td>{{item.description}}</td>
             <td>{{item.modified}}</td>
             <td><input type="checkbox" name="donecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
-            <td><input type="checkbox" name="archivecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+            <td><input type="checkbox" name="deletecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
           </tr>
           {% endfor %}
         </table>  
       </ul>
-      <h2>Items Completed Today</h2>
+      <h2>Completed Items</h2>
       <ul class="list-group mb-4">
         <table class="table table-bordered">
           <thead class="thead-light">
@@ -89,24 +90,24 @@
             <th scope=col>Due Date</th>
             <th scope=col>Description</th>
             <th scope=col>Last Modified</th>
-            <th scope=col>Archive Task</th>
+            <th scope=col>Delete Task</th>
           </tr>
           </thead>
           <form action="/update" method="POST" class="form-example">
-          {% for item in view_model.done_today %}
-          <tr>
-            <th scope=row>{{item.id}}</th>
-            <td>{{item.name}}</td>
-            <td>{{item.due}}</td>
-            <td>{{item.description}}</td>
-            <td>{{item.modified}}</td>
-            <td><input type="checkbox" name="archivecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
-          </tr>
-          {% endfor %}
+            {% for item in view_model.done_items_to_show %}
+            <tr>
+              <th scope=row>{{item.id}}</th>
+              <td>{{item.name}}</td>
+              <td>{{item.due}}</td>
+              <td>{{item.description}}</td>
+              <td>{{item.modified}}</td>
+              <td><input type="checkbox" name="deletecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+            </tr>
+            {% endfor %}
         </table>  
       </ul>
     </div>
-    <div class="form-example">
+    <div class="form-example" >
       <input type="submit" id="submit" class="btn btn-dark" value="Submit">
     </div>
     </form>

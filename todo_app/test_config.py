@@ -44,7 +44,7 @@ class TestTrello():
             assert card.idList == doing_list_id
 
     @staticmethod
-    def test_done_items(dummy_card_list, list_ids):
+    def test_all_done_items(dummy_card_list, list_ids):
         done_list_id = list_ids['done']
         view_model = ViewModel(dummy_card_list, list_ids)
         
@@ -54,13 +54,13 @@ class TestTrello():
             assert card.idList == done_list_id
 
     @staticmethod
-    def test_items_completed_today(dummy_card_list, list_ids):
+    def test_recent_done_items(dummy_card_list, list_ids):
         view_model = ViewModel(dummy_card_list, list_ids)
         items_done_today = view_model.done_today
         assert len(items_done_today) == 1
 
     @staticmethod
-    def test_items_completed_before_today(dummy_card_list, list_ids):
+    def test_older_done_items(dummy_card_list, list_ids):
         view_model = ViewModel(dummy_card_list, list_ids)
         items_done_before_today = view_model.done_before_today
         assert len(items_done_before_today) == 2

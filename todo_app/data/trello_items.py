@@ -14,16 +14,23 @@ class TrelloCard:
         self.modified = modified
 
 class ViewModel:
-    def __init__(self, items, lists):
+    def __init__(self, items, lists, user_preference = 0):
         self._items = items
         self._lists = lists
+        self._user_preference = user_preference
 
     @property
     def items(self):
         return self._items
+
     @property
     def lists(self):
         return self._lists
+
+    @property
+    def user_preference(self):
+        return self._user_preference
+
     @property
     def todo(self):
         items = []
@@ -31,6 +38,7 @@ class ViewModel:
             if item.idList == self._lists['todo']:
                 items.append(item)
         return items
+
     @property
     def doing(self):
         items = []
@@ -38,6 +46,7 @@ class ViewModel:
             if item.idList == self._lists['doing']:
                 items.append(item)
         return items
+
     @property
     def done(self):
         items = []
@@ -45,6 +54,7 @@ class ViewModel:
             if item.idList == self._lists['done']:
                 items.append(item)
         return items
+
     @property
     def done_today(self):
         items = []
@@ -55,17 +65,18 @@ class ViewModel:
             if item.idList == self._lists['done'] and completed_date[0] == str(todays_date):
                 items.append(item)
         return items
-    @property
-    def done_before_today(self):
-        items = []
-        for item in self._items:
-            modified_date = str(item.modified)
-            completed_date = modified_date.split(" ")
-            todays_date = datetime.date.today()
-            if item.idList == self._lists['done'] and completed_date[0] != str(todays_date):
-                items.append(item)
-        return items
 
+    @property
+    def done_items_to_show(self):
+        if self.showing_today_done_items:
+            return self.done_today
+        else:
+            return self.done
+    
+    @property
+    def showing_today_done_items(self):
+        number_done = len(self.done)
+        return number_done > 5 and self.user_preference == 0
 
 def get_trello_board_id():
     trello_board_id = board_id_config
@@ -145,6 +156,6 @@ def move_trello_card(card_id, new_list_id):
     movecardparams = {'key': credkey, 'token': credtoken, 'idList': new_list_id}
     requests.put(f'https://api.trello.com/1/cards/{card_id}', params=movecardparams)
 
-def archive_trello_card(card_id):
-    archivecardparams = {'key': credkey, 'token': credtoken, 'closed': "true"}
-    requests.put(f'https://api.trello.com/1/cards/{card_id}', params=archivecardparams)
+def delete_trello_card(card_id):
+    deletecardparams = {'key': credkey, 'token': credtoken}
+    requests.delete(f'https://api.trello.com/1/cards/{card_id}', params=deletecardparams)
