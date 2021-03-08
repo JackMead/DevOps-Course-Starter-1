@@ -40,13 +40,12 @@ def movetolist():
             delete_trello_card(card.id)
     return redirect(request.headers.get('Referer'))
 
-@app.route('/show_older_items', methods=['POST'])
+@app.route('/show_older_done_items', methods=['POST'])
 def show_older_completed_items():
     alllistids = {'todo':get_trello_list_id('To Do'),'doing':get_trello_list_id('Doing'),'done':get_trello_list_id('Done')}
     items = get_trello_cards()
-    user_preference = 1
-    item_view_model = ViewModel(items, alllistids, user_preference)
-    return render_template('index.html', view_model=item_view_model)
+    item_view_model = ViewModel(items, alllistids)
+    return render_template('indextest.html', view_model=item_view_model)
    
 
 if __name__ == '__main__':

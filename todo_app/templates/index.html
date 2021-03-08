@@ -66,6 +66,7 @@
             <th scope=col>Delete Task</th>
           </tr>
           </thead>
+
           <form action="/update" method="POST" class="form-example">
           {% for item in view_model.doing %}
           <tr>
@@ -110,6 +111,9 @@
     <div class="form-example" >
       <input type="submit" id="submit" class="btn btn-dark" value="Submit">
     </div>
+    </form>
+    <form action="/show_older_done_items" method="POST" class="form-example">
+      <input type="submit" id="submit" class="btn btn-dark" value="Show Older Completed Items">
     </form>
   </div>
   

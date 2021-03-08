@@ -80,3 +80,6 @@ of the completion date, please click the "Show Older Completed Items" to view al
 # Testing the app
 
 To test the app, install and run "pytest" in the root folder (above "todo_app" folder) and it will run through the tests specified in "test_config.py". This will run tests on the functionailty of the app based on dummy data that is hard coded into the "test_config.py" file. If all tests are successful, it means that the logic in the app is working correctly with the data from Trello. If there are failures, you will need to work out what it causing them. It is most likely going to be an issue with the set up/configuration of python/pytest/poetry, or the dummy data has been modified incorrectly.
+
+To run a test individually, from the console, simply run "pytest test_config.py::*name_of_test_function*".
+
