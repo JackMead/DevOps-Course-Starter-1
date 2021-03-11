@@ -1,9 +1,5 @@
 import requests, json, os, datetime
 
-credkey = os.environ.get('KEY')
-credtoken = os.environ.get('TOKEN')
-board_id_config = os.environ.get('BOARDID')
-
 class TrelloCard:
     def __init__(self, id, name, idList, due, description, modified):
         self.id = id
@@ -14,11 +10,9 @@ class TrelloCard:
         self.modified = modified
 
 class ViewModel:
-    def __init__(self, items, lists, user_preference = 0):
+    def __init__(self, items, lists):
         self._items = items
         self._lists = lists
-        self._user_preference = user_preference
-
     @property
     def items(self):
         return self._items
@@ -26,10 +20,6 @@ class ViewModel:
     @property
     def lists(self):
         return self._lists
-
-    @property
-    def user_preference(self):
-        return self._user_preference
 
     @property
     def todo(self):
@@ -67,25 +57,33 @@ class ViewModel:
         return items
 
     @property
-    def done_items_to_show(self):
-        if self.showing_today_done_items:
-            return self.done_today
-        else:
-            return self.done
-    
-    @property
-    def showing_today_done_items(self):
-        number_done = len(self.done)
-        return number_done > 5 and self.user_preference == 0
+    def done_before_today(self):
+        items = []
+        for item in self._items:
+            modified_date = str(item.modified)
+            completed_date = modified_date.split(" ")
+            todays_date = datetime.date.today()
+            if item.idList == self._lists['done'] and completed_date[0] != str(todays_date):
+                items.append(item)
+        return items
+
+def get_credential_key():
+    cred_key = os.environ.get('KEY')
+    return cred_key
+
+def get_credential_token():
+    cred_token = os.environ.get('TOKEN')
+    return cred_token
+
 
 def get_trello_board_id():
-    trello_board_id = board_id_config
+    trello_board_id = os.environ.get('BOARDID')
 
     return trello_board_id
 
 def get_trello_cards():
     board_id = get_trello_board_id()
-    getcardparams = {'key': credkey, 'token': credtoken}
+    getcardparams = {'key': get_credential_key(), 'token': get_credential_token()}
     cardresults = requests.get(f'https://api.trello.com/1/boards/{board_id}/cards', params=getcardparams)
     cards = cardresults.json()
     all_cards = []
@@ -108,7 +106,7 @@ def get_trello_cards_from_list(list):
     for l in alllists:
         if l['name'] == list:
             desired_list_id = l['id']
-    getcardfromlistparams = {'key': credkey, 'token': credtoken}
+    getcardfromlistparams = {'key': get_credential_key(), 'token': get_credential_token()}
     cardfromlistresults = requests.get(f'https://api.trello.com/1/lists/{desired_list_id}/cards', params=getcardfromlistparams)
     cards = cardfromlistresults.json()
     list_cards = []
@@ -128,7 +126,7 @@ def get_trello_cards_from_list(list):
 
 def get_trello_lists():
     board_id = get_trello_board_id()
-    getlistparams = {'key': credkey, 'token': credtoken}
+    getlistparams = {'key': get_credential_key(), 'token': get_credential_token()}
     listresults = requests.get(f'https://api.trello.com/1/boards/{board_id}/lists', params=getlistparams)
     lists = listresults.json()
 
@@ -149,13 +147,13 @@ def create_new_trello_card(card_name, card_description):
     for l in lists:
         if l['name'] == "To Do":
             desired_list_id = l['id']
-    createcardparams = {'key': credkey, 'token': credtoken, 'idList': desired_list_id, 'name': card_name, 'desc': card_description, 'due': str(newitemduedate)}
+    createcardparams = {'key': get_credential_key(), 'token': get_credential_token(), 'idList': desired_list_id, 'name': card_name, 'desc': card_description, 'due': str(newitemduedate)}
     requests.post('https://api.trello.com/1/cards', params=createcardparams)
 
 def move_trello_card(card_id, new_list_id):
-    movecardparams = {'key': credkey, 'token': credtoken, 'idList': new_list_id}
+    movecardparams = {'key': get_credential_key(), 'token': get_credential_token(), 'idList': new_list_id}
     requests.put(f'https://api.trello.com/1/cards/{card_id}', params=movecardparams)
 
 def delete_trello_card(card_id):
-    deletecardparams = {'key': credkey, 'token': credtoken}
+    deletecardparams = {'key': get_credential_key(), 'token': get_credential_token()}
     requests.delete(f'https://api.trello.com/1/cards/{card_id}', params=deletecardparams)

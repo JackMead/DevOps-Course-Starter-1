@@ -95,16 +95,29 @@
           </tr>
           </thead>
           <form action="/update" method="POST" class="form-example">
-            {% for item in view_model.done_items_to_show %}
-            <tr>
-              <th scope=row>{{item.id}}</th>
-              <td>{{item.name}}</td>
-              <td>{{item.due}}</td>
-              <td>{{item.description}}</td>
-              <td>{{item.modified}}</td>
-              <td><input type="checkbox" name="deletecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
-            </tr>
-            {% endfor %}
+            {% if (view_model.done|length) >= 5 %}
+              {% for item in view_model.done_today %}
+              <tr>
+                <th scope=row>{{item.id}}</th>
+                <td>{{item.name}}</td>
+                <td>{{item.due}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.modified}}</td>
+                <td><input type="checkbox" name="deletecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              {% for item in view_model.done %}
+              <tr>
+                <th scope=row>{{item.id}}</th>
+                <td>{{item.name}}</td>
+                <td>{{item.due}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.modified}}</td>
+                <td><input type="checkbox" name="deletecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+              </tr>
+              {% endfor %}
+            {% endif %}  
         </table>  
       </ul>
     </div>
