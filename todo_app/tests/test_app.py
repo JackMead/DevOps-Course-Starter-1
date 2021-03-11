@@ -6,14 +6,186 @@ from unittest.mock import patch, Mock
 
 today = datetime.date.today()
 dummy_cards = [
-    TrelloCard(1,"Test Card 1",999,today,"Dummy Description 1",today - datetime.timedelta(days=8)),
-    TrelloCard(2,"Test Card 2",998,today - datetime.timedelta(days=2),"Dummy Description 2", today - datetime.timedelta(days=7)),
-    TrelloCard(3,"Test Card 3",997,today - datetime.timedelta(days=3),"Dummy Description 3", today - datetime.timedelta(days=6)),
-    TrelloCard(4,"Test Card 4",999,today - datetime.timedelta(days=4),"Dummy Description 4", today),
-    TrelloCard(5,"Test Card 5",999,today,"Dummy Description 5", today - datetime.timedelta(days=4)),
-    TrelloCard(6,"Test Card 6",998,today - datetime.timedelta(days=6),"Dummy Description 6", today - datetime.timedelta(days=3)),
-    TrelloCard(7,"Test Card 7",997,today - datetime.timedelta(days=7),"Dummy Description 7", today - datetime.timedelta(days=2)),
-    TrelloCard(8,"Test Card 8",997,today - datetime.timedelta(days=8),"Dummy Description 8", today)
+    {
+        "id": "1",
+        "checkItemStates": None,
+        "closed": False,
+        "dateLastActivity": "2021-03-04T16:46:45.995Z",
+        "desc": "testing desc",
+        "descData": None,
+        "dueReminder": None,
+        "idBoard": "123456ZYXWV",
+        "idList": "999",
+        "idMembersVoted": [],
+        "idShort": 26,
+        "idAttachmentCover": None,
+        "idLabels": [],
+        "manualCoverAttachment": False,
+        "name": "Test Card 1",
+        "pos": 16384,
+        "shortLink": "hDebNQN6",
+        "isTemplate": False,
+        "cardRole": None,
+        "badges": {
+            "attachmentsByType": {
+                "trello": {
+                    "board": 0,
+                    "card": 0
+                }
+            },
+            "location": False,
+            "votes": 0,
+            "viewingMemberVoted": False,
+            "subscribed": False,
+            "fogbugz": "",
+            "checkItems": 0,
+            "checkItemsChecked": 0,
+            "checkItemsEarliestDue": None,
+            "comments": 0,
+            "attachments": 0,
+            "description": True,
+            "due": "2021-04-03T20:46:45.000Z",
+            "dueComplete": False,
+            "start": None
+        },
+        "dueComplete": False,
+        "due": "2021-04-03T20:46:45.000Z",
+        "idChecklists": [],
+        "idMembers": [],
+        "labels": [],
+        "shortUrl": "https://trello.com/c/hDebNQN6",
+        "start": None,
+        "subscribed": False,
+        "url": "https://trello.com/c/hDebNQN6/26-finish-project",
+        "cover": {
+            "idAttachment": None,
+            "color": None,
+            "idUploadedBackground": None,
+            "size": "normal",
+            "brightness": "light",
+            "idPlugin": None
+        }
+    },
+     {
+        "id": "1",
+        "checkItemStates": None,
+        "closed": False,
+        "dateLastActivity": "2021-03-04T16:46:45.995Z",
+        "desc": "testing desc",
+        "descData": None,
+        "dueReminder": None,
+        "idBoard": "123456ZYXWV",
+        "idList": "998",
+        "idMembersVoted": [],
+        "idShort": 26,
+        "idAttachmentCover": None,
+        "idLabels": [],
+        "manualCoverAttachment": False,
+        "name": "Test Card 2",
+        "pos": 16384,
+        "shortLink": "hDebNQN6",
+        "isTemplate": False,
+        "cardRole": None,
+        "badges": {
+            "attachmentsByType": {
+                "trello": {
+                    "board": 0,
+                    "card": 0
+                }
+            },
+            "location": False,
+            "votes": 0,
+            "viewingMemberVoted": False,
+            "subscribed": False,
+            "fogbugz": "",
+            "checkItems": 0,
+            "checkItemsChecked": 0,
+            "checkItemsEarliestDue": None,
+            "comments": 0,
+            "attachments": 0,
+            "description": True,
+            "due": "2021-04-03T20:46:45.000Z",
+            "dueComplete": False,
+            "start": None
+        },
+        "dueComplete": False,
+        "due": "2021-04-03T20:46:45.000Z",
+        "idChecklists": [],
+        "idMembers": [],
+        "labels": [],
+        "shortUrl": "https://trello.com/c/hDebNQN6",
+        "start": None,
+        "subscribed": False,
+        "url": "https://trello.com/c/hDebNQN6/26-finish-project",
+        "cover": {
+            "idAttachment": None,
+            "color": None,
+            "idUploadedBackground": None,
+            "size": "normal",
+            "brightness": "light",
+            "idPlugin": None
+        }
+    },
+     {
+        "id": "1",
+        "checkItemStates": None,
+        "closed": False,
+        "dateLastActivity": "2021-03-04T16:46:45.995Z",
+        "desc": "testing desc",
+        "descData": None,
+        "dueReminder": None,
+        "idBoard": "123456ZYXWV",
+        "idList": "997",
+        "idMembersVoted": [],
+        "idShort": 26,
+        "idAttachmentCover": None,
+        "idLabels": [],
+        "manualCoverAttachment": False,
+        "name": "Test Card 3",
+        "pos": 16384,
+        "shortLink": "hDebNQN6",
+        "isTemplate": False,
+        "cardRole": None,
+        "badges": {
+            "attachmentsByType": {
+                "trello": {
+                    "board": 0,
+                    "card": 0
+                }
+            },
+            "location": False,
+            "votes": 0,
+            "viewingMemberVoted": False,
+            "subscribed": False,
+            "fogbugz": "",
+            "checkItems": 0,
+            "checkItemsChecked": 0,
+            "checkItemsEarliestDue": None,
+            "comments": 0,
+            "attachments": 0,
+            "description": True,
+            "due": "2021-04-03T20:46:45.000Z",
+            "dueComplete": False,
+            "start": None
+        },
+        "dueComplete": False,
+        "due": "2021-04-03T20:46:45.000Z",
+        "idChecklists": [],
+        "idMembers": [],
+        "labels": [],
+        "shortUrl": "https://trello.com/c/hDebNQN6",
+        "start": None,
+        "subscribed": False,
+        "url": "https://trello.com/c/hDebNQN6/26-finish-project",
+        "cover": {
+            "idAttachment": None,
+            "color": None,
+            "idUploadedBackground": None,
+            "size": "normal",
+            "brightness": "light",
+            "idPlugin": None
+        }
+    }
 ]
 
 sample_trello_cards_response = dummy_cards
@@ -21,17 +193,17 @@ sample_trello_cards_response = dummy_cards
 
 dummy_lists = [
     {
-        "id": "123",
+        "id": 999,
         "name": "To Do",
         "closed": False
     },
     {
-        "id": "456",
+        "id": 998,
         "name": "Doing",
         "closed": False
     },
     {
-        "id": "789",
+        "id": 997,
         "name": "Done",
         "closed": False
     }
@@ -49,9 +221,9 @@ def client():
 
 @patch('requests.get')
 def test_index_page(mock_get_requests, client):
-    mock_get_requests.side_effect = mock_get_requests
+    mock_get_requests.side_effect = mock_trello_api
     response = client.get('/')
-def mock_get_requests(url, params):
+def mock_trello_api(url, params):
     BOARDID = os.environ.get('BOARDID')
     if url == f'https://api.trello.com/1/boards/{BOARDID}/lists':
         response = Mock()
