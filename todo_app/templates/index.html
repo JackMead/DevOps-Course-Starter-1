@@ -11,46 +11,122 @@
     <div class="form-example">
       <label for="title">Enter new To-Do item: </label>
       <input type="title" name="title" id="title" required>
+      <label for="title">Enter a description: </label>
+      <input type="title" name="desc" id="desc" required>
     </div>
     <div class="form-example">
-      <input type="submit" id="addnew" class="btn btn-dark" value="Add To-Do item!">
+      <input type="submit" id="addnew" name="addnew" class="btn btn-dark" value="Add To-Do item!">
     </div>
   </form>
 
   <div class="row">
     <div class="col-md-12">
-      <h2>Items</h2>
+      <br>
+        <h2>To Do Items</h2>
+        <ul class="list-group mb-4">
+          <table class="table table-bordered">
+            <thead class="thead-light">
+            <tr>
+              <th scope=col>ID</th>
+              <th scope=col>Title</th>
+              <th scope=col>Due Date</th>
+              <th scope=col>Description</th>
+              <th scope=col>Last Modified</th>
+              <th scope=col>Mark as In Progress</th>
+              <th scope=col>Mark as Complete</th>
+              <th scope=col>Delete Task</th>
+            </tr>
+            </thead>
+            <form action="/update" method="POST" class="form-example">
+            {% for item in view_model.todo %}
+            <tr>
+              <th scope=row id="ToDo_{{item.id}}">{{item.id}}</th>
+              <td>{{item.name}}</td>
+              <td>{{item.due}}</td>
+              <td>{{item.description}}</td>
+              <td>{{item.modified}}</td>
+              <td><input type="checkbox" name="inprogcheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+              <td><input type="checkbox" name="donecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+              <td><input type="checkbox" name="deletecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+            </tr>
+            {% endfor %}
+          </table>  
+        </ul>
+        <h2>Doing Items</h2>
       <ul class="list-group mb-4">
         <table class="table table-bordered">
           <thead class="thead-light">
           <tr>
             <th scope=col>ID</th>
             <th scope=col>Title</th>
-            <th scope=col>Status</th>
-            <th scope=col>Mark as In Progress</th>
+            <th scope=col>Due Date</th>
+            <th scope=col>Description</th>
+            <th scope=col>Last Modified</th>
             <th scope=col>Mark as Complete</th>
+            <th scope=col>Delete Task</th>
           </tr>
           </thead>
+
           <form action="/update" method="POST" class="form-example">
-          {% for item in items %}
+          {% for item in view_model.doing %}
           <tr>
-            <th scope=row>{{item.id}}</th>
+            <th scope=row id="Doing_{{item.id}}">{{item.id}}</th>
             <td>{{item.name}}</td>
-            {% for list in lists %}
-              {% if item.idList == list.id %}
-                <td>{{list.name}}</td>
-              {% endif %}
-            {% endfor %}
-            <td><input type="checkbox" name="inprogcheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+            <td>{{item.due}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.modified}}</td>
             <td><input type="checkbox" name="donecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+            <td><input type="checkbox" name="deletecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
           </tr>
           {% endfor %}
         </table>  
       </ul>
+      <h2>Completed Items</h2>
+      <ul class="list-group mb-4">
+        <table class="table table-bordered">
+          <thead class="thead-light">
+          <tr>
+            <th scope=col>ID</th>
+            <th scope=col>Title</th>
+            <th scope=col>Due Date</th>
+            <th scope=col>Description</th>
+            <th scope=col>Last Modified</th>
+            <th scope=col>Delete Task</th>
+          </tr>
+          </thead>
+          <form action="/update" method="POST" class="form-example">
+            {% if (view_model.done|length) >= 5 %}
+              {% for item in view_model.done_today %}
+              <tr>
+                <th scope=row>{{item.id}}</th>
+                <td>{{item.name}}</td>
+                <td>{{item.due}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.modified}}</td>
+                <td><input type="checkbox" name="deletecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              {% for item in view_model.done %}
+              <tr>
+                <th scope=row>{{item.id}}</th>
+                <td>{{item.name}}</td>
+                <td>{{item.due}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.modified}}</td>
+                <td><input type="checkbox" name="deletecheck_{{item.id}}" value={{item.id}} />&nbsp;</td>
+              </tr>
+              {% endfor %}
+            {% endif %}  
+        </table>  
+      </ul>
     </div>
-    <div class="form-example">
+    <div class="form-example" >
       <input type="submit" id="submit" class="btn btn-dark" value="Submit">
     </div>
+    </form>
+    <form action="/show_older_done_items" method="POST" class="form-example">
+      <input type="submit" id="show_older_done_items" class="btn btn-dark" value="Show Older Completed Items">
     </form>
   </div>
   

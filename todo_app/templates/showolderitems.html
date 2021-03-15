@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}To-Do App{% endblock %}
+
+{% block content %}
+  <div class="jumbotron">
+    <h1 class="display-4">Luke Woods' To-Do App</h1>
+    <p class="lead">To-Do app to organise your day.</p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+    <h6>NOTE: Please press the back button to return to the main homepage</h6>
+      <br>
+      <h2>All Completed Items</h2>
+      <ul class="list-group mb-4">
+        <table class="table table-bordered">
+          <thead class="thead-light">
+          <tr>
+            <th scope=col>ID</th>
+            <th scope=col>Title</th>
+            <th scope=col>Due Date</th>
+            <th scope=col>Description</th>
+            <th scope=col sorted="">Last Modified</th>
+          </tr>
+          </thead>
+          <form action="/update" method="POST" class="form-example">
+            {% for item in view_model.done %}
+            <tr>
+              <th scope=row>{{item.id}}</th>
+              <td>{{item.name}}</td>
+              <td>{{item.due}}</td>
+              <td>{{item.description}}</td>
+              <td>{{item.modified}}</td>
+            </tr>
+            {% endfor %}
+        </table>  
+      </ul>
+    </div>
+    </form>
+  </div>
+  
+{% endblock %}
