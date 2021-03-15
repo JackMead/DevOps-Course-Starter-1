@@ -157,3 +157,14 @@ def move_trello_card(card_id, new_list_id):
 def delete_trello_card(card_id):
     deletecardparams = {'key': get_credential_key(), 'token': get_credential_token()}
     requests.delete(f'https://api.trello.com/1/cards/{card_id}', params=deletecardparams)
+
+def create_trello_board(board_name):
+    createboardparams = {'key': get_credential_key(), 'token': get_credential_token(), 'name': board_name}
+    response = requests.post(f'https://api.trello.com/1/boards', params=createboardparams)
+    new_board = response.json()
+    return new_board['id']
+ 
+def delete_trello_board(board_id):
+    deleteboardparams = {'key': get_credential_key(), 'token': get_credential_token()}
+    board_id_to_remove = board_id
+    requests.delete(f'https://api.trello.com/1/boards/{board_id_to_remove}', params=deleteboardparams)

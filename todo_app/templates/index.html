@@ -15,7 +15,7 @@
       <input type="title" name="desc" id="desc" required>
     </div>
     <div class="form-example">
-      <input type="submit" id="addnew" class="btn btn-dark" value="Add To-Do item!">
+      <input type="submit" id="addnew" name="addnew" class="btn btn-dark" value="Add To-Do item!">
     </div>
   </form>
 
@@ -40,7 +40,7 @@
             <form action="/update" method="POST" class="form-example">
             {% for item in view_model.todo %}
             <tr>
-              <th scope=row>{{item.id}}</th>
+              <th scope=row id="ToDo_{{item.id}}">{{item.id}}</th>
               <td>{{item.name}}</td>
               <td>{{item.due}}</td>
               <td>{{item.description}}</td>
@@ -70,7 +70,7 @@
           <form action="/update" method="POST" class="form-example">
           {% for item in view_model.doing %}
           <tr>
-            <th scope=row>{{item.id}}</th>
+            <th scope=row id="Doing_{{item.id}}">{{item.id}}</th>
             <td>{{item.name}}</td>
             <td>{{item.due}}</td>
             <td>{{item.description}}</td>
@@ -126,7 +126,7 @@
     </div>
     </form>
     <form action="/show_older_done_items" method="POST" class="form-example">
-      <input type="submit" id="submit" class="btn btn-dark" value="Show Older Completed Items">
+      <input type="submit" id="show_older_done_items" class="btn btn-dark" value="Show Older Completed Items">
     </form>
   </div>
   

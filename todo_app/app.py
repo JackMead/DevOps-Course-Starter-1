@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 import requests, json, os, datetime, operator
 
 from todo_app.flask_config import Config
-from todo_app.data.trello_items import get_trello_board_id, get_trello_cards, get_trello_lists, create_new_trello_card, move_trello_card, ViewModel, get_trello_cards_from_list, get_trello_list_id, delete_trello_card
+from todo_app.data.trello_items import get_trello_board_id, get_trello_cards, get_trello_lists, create_new_trello_card, move_trello_card, ViewModel, get_trello_cards_from_list, get_trello_list_id, delete_trello_card, create_trello_board, delete_trello_board
 
 def create_app():
     app = Flask(__name__)
