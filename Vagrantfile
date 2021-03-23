@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
       pyenv install 3.9.0
       pyenv global 3.9.0
       poetry install
-      poetry run flask run
+      nohup poetry run flask run --host 0.0.0.0 > logs.txt 2>&1 &
     "}
   end
 end
