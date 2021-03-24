@@ -4,12 +4,6 @@
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
  * Restarting with stat
  * Debugger is active!
- * Debugger PIN: 311-494-448
-10.0.2.2 - - [23/Mar/2021 10:22:52] "[37mGET / HTTP/1.1[0m" 200 -
-10.0.2.2 - - [23/Mar/2021 10:23:01] "[32mPOST /add_new HTTP/1.1[0m" 302 -
-10.0.2.2 - - [23/Mar/2021 10:23:02] "[37mGET / HTTP/1.1[0m" 200 -
-10.0.2.2 - - [23/Mar/2021 10:23:10] "[32mPOST /update HTTP/1.1[0m" 302 -
-10.0.2.2 - - [23/Mar/2021 10:23:11] "[37mGET / HTTP/1.1[0m" 200 -
-10.0.2.2 - - [23/Mar/2021 10:23:18] "[32mPOST /update HTTP/1.1[0m" 302 -
-10.0.2.2 - - [23/Mar/2021 10:23:18] "[37mGET / HTTP/1.1[0m" 200 -
-10.0.2.2 - - [23/Mar/2021 10:23:22] "[37mPOST /show_older_done_items HTTP/1.1[0m" 200 -
+ * Debugger PIN: 143-998-256
+10.0.2.2 - - [23/Mar/2021 16:07:43] "[37mGET / HTTP/1.1[0m" 200 -
+10.0.2.2 - - [24/Mar/2021 09:11:58] "[37mGET / HTTP/1.1[0m" 200 -
