@@ -8,12 +8,12 @@ from dotenv import find_dotenv,load_dotenv
 
 @pytest.fixture(scope='module')
 def app_with_temp_board():
-    board_id = create_trello_board("TestBoard")
     file_path = find_dotenv('.env')
-    load_dotenv(file_path)
+    load_dotenv(file_path, override=True)
+    board_id = create_trello_board("TestBoard")
     os.environ['BOARDID'] = board_id
     
-
+    
     application = app.create_app()
     
     thread = Thread(target=lambda: application.run(use_reloader=False))
