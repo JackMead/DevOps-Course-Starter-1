@@ -121,3 +121,6 @@ env/
 
 ### Vagrant files ###
 .vagrant
+
+### Log Files ###
+logs.txt

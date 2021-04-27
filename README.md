@@ -63,6 +63,10 @@ in the .env file as well. The .env.template file has been updated to show the fo
         ```
         Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.'''
 
+# Starting the app
+
+You can run the app using Vagrant. Run the command "vagrant up" in the terminal to build a VM to run the application. You can then access the app through the browser at "http://localhost:5000".
+
 # Navigating the app
 
 This App will show you a list of all of your To Do items, categorised by their status (or list name), showing the item ID, name, description, due date, last modified date.
