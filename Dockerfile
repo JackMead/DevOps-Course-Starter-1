@@ -1,13 +1,16 @@
-FROM python:3.10.0a7-buster as base
+FROM python:3 as base
 
-WORKDIR /todo_app
-RUN pip install poetry gunicorn flask
-COPY /todo_app /data/todo_app
-
-EXPOSE 5000
+WORKDIR /data
+COPY ./poetry.toml /data
+COPY ./pyproject.toml /data
+COPY ./.env /data
+RUN pip install poetry && poetry install
 
 FROM base as production
-WORKDIR /data
-ENV PYTHONPATH /data/todo_app
-ENTRYPOINT ["/usr/local/bin/gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "-t", "30", "todo_app.app:create_app()"]
+RUN apt-get update && \
+    apt-get install -y gunicorn
+COPY ./todo_app /data/todo_app
+EXPOSE 5000
+ENTRYPOINT $(poetry env info --path)/bin/gunicorn --error-logfile /data/error.log -b 0.0.0.0:5000 "todo_app.app:create_app()"
+
 

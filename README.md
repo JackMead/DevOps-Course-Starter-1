@@ -67,6 +67,8 @@ in the .env file as well. The .env.template file has been updated to show the fo
 
 You can run the app using Vagrant. Run the command "vagrant up" in the terminal to build a VM to run the application. You can then access the app through the browser at "http://localhost:5000".
 
+You can run the app using Docker containers. First, build the latest image using the command "docker build --tag todo-app:latest --target production .". This uses the configuration in the "Dockerfile" in the root directory. You can then run a container that will serve the app by running "docker run -p 5000:5000 --env-file .env todo-app".
+
 # Navigating the app
 
 This App will show you a list of all of your To Do items, categorised by their status (or list name), showing the item ID, name, description, due date, last modified date.
