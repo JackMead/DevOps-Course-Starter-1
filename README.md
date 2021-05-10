@@ -67,7 +67,15 @@ in the .env file as well. The .env.template file has been updated to show the fo
 
 You can run the app using Vagrant. Run the command "vagrant up" in the terminal to build a VM to run the application. You can then access the app through the browser at "http://localhost:5000".
 
-You can run the app using Docker containers. First, build the latest image using the command "docker build --tag todo-app:latest --target production .". This uses the configuration in the "Dockerfile" in the root directory. You can then run a container that will serve the app by running "docker run -p 5000:5000 --env-file .env todo-app".
+You can run the app using Docker containers. First, add any files that you do not want to copy to the container into the ".dockerignore" file, then build the latest image using the commands: 
+
+Production image - "docker build --tag todo-app:production --target production ." 
+Development image - "docker build --tag todo-app:development --target development ." 
+
+This uses the configuration in the "Dockerfile" in the root directory. You can then run a container that will serve the app by running:
+
+Production image - "docker run -d -p 5000:5000 --env-file .env --mount type=bind,source="$(pwd)"/todo_app,target=/data/todo_app todo-app:production"
+Development image -  "docker run -d -p 5000:5000 --env-file .env --mount type=bind,source="$(pwd)"/todo_app,target=/data/todo_app todo-app:development"
 
 # Navigating the app
 
