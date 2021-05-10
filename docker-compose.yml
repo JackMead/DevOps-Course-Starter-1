@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  todo-app:
+    image: todo-app:development
+    build: 
+        context: .
+        dockerfile: Dockerfile
+        target: development
+    ports:
+      - "5000:5000"
+    env_file:
+        - .env
+    volumes:
+      - type: bind
+        source: ./todo_app
+        target: /data/todo_app
