@@ -1,0 +1,4 @@
+script:
+- docker build --tag todo-app:test --target test .
+- docker run --env-file .env todo-app:test todo_app/tests
+- docker run --env-file .env todo-app:test todo_app/tests_e2e
