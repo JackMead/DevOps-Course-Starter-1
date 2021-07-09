@@ -69,13 +69,14 @@ You can run the app using Vagrant. Run the command "vagrant up" in the terminal 
 
 You can run the app using Docker containers. First, add any files that you do not want to copy to the container into the ".dockerignore" file, then build the latest image using the commands: 
 
-Production image - "docker build --tag todo-app:production --target production ." 
-Development image - "docker build --tag todo-app:development --target development ." 
+Production image: `docker build --tag todo-app:production --target production .`
+Development image: `docker build --tag todo-app:development --target development .`
+Test image: `docker build --tag todo-app:test --target test .`
 
 This uses the configuration in the "Dockerfile" in the root directory. You can then run a container that will serve the app by running:
 
-Production image - "docker run -d -p 5000:5000 --env-file .env --mount type=bind,source="$(pwd)"/todo_app,target=/data/todo_app todo-app:production"
-Development image -  "docker run -d -p 5000:5000 --env-file .env --mount type=bind,source="$(pwd)"/todo_app,target=/data/todo_app todo-app:development"
+Production image: `docker run -d -p 5000:5000 --env-file .env --mount type=bind,source="$(pwd)"/todo_app,target=/data/todo_app todo-app:production`
+Development image: `docker run -d -p 5000:5000 --env-file .env --mount type=bind,source="$(pwd)"/todo_app,target=/data/todo_app todo-app:development`
 
 # Navigating the app
 

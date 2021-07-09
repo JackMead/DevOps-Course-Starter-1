@@ -26,7 +26,11 @@ def app_with_temp_board():
 
 @pytest.fixture(scope="module")
 def driver():
-    with webdriver.Chrome("C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe") as driver:
+    opts = webdriver.ChromeOptions()
+    opts.add_argument('--headless')
+    opts.add_argument('--no-sandbox')
+    opts.add_argument('--disable-dev-shm-usage')
+    with webdriver.Chrome(options=opts) as driver:
         yield driver
 
 def test_task_journey(driver, app_with_temp_board):
