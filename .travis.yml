@@ -14,5 +14,5 @@ script:
 - docker build --tag todo-app:test --target test .
 - docker run --env-file .env.test todo-app:test todo_app/tests
 - docker run --env BOARDID --env KEY --env TOKEN todo-app:test todo_app/tests_e2e
-- docker build --tag todo-app:latest --target production .
+- docker build --tag $DOCKER_USERNAME/todo-production:latest --target production .
 - docker push $DOCKER_USERNAME/todo-production:latest
