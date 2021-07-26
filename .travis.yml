@@ -10,7 +10,7 @@ env:
   - secure: "3Jp0HokVac9gWYq5YFrssWj5/jVQkayXJDbT2eiK1uTno9ajept0kpZcr+eRpTzC59s/Dvtf9hL33whCpZWjRJmaz3iB7GuKtJ+oLYX4qCd7QIgR+Y5DrqsfKDkdbiN7vf/p79ISwXOdvnmPdLsAUEjZncT9Kz1BLtnwZcZXRi/ZciKKRK0UrGCSzwbZHNO0r9ykxGeZRJ1lEh4qkfqk975k+UzSJnlGzQ+Dxgs7HtIjwtDzp+md3m2bRU4D/yNT/cKf6BNWsMvkQGu0iEZCIKIHfvghu0BMlhv33xZYN2uH0P03HzycV8Eh+3Etb82pJ30ndq7HpOnKEW1xufpaK2qLq0ubak/FvlxNiJKgoExIJ9BROoh32CSAgNOu8WoT81jwn9A6X6N/ltCzOUwdV9Gg6iLof/SPLSzrCfgZGxLZlpt3l7it+agn5fpi+vPpdp/7dq9AaHg0aesvRdu16lJZBFkiPZ/ZSjxsB0RDwz9HAT3d9X0dGyk2MaVvFCsSHcr+3RhQG5+lkjaRvrQas/6ov6pd+fkjTtaHc78FDN1/D1ImMS9IKSC6a8GahpwrL94opgH1+bH33J1QZS7dtJoECdJkm59j3UvH9nt6jLeekh1yE/9fObCaWqDOSQtQ12Na6n0RLNQ3uoHuoTCA/HnCRLqzy7QxlkwDuuUtAuk="
 
 script:
-- echo PASSWORD | docker login --username USERNAME --password-stdin
+- echo $PASSWORD | docker login --username $USERNAME --password-stdin
 - docker build --tag todo-app:test --target test .
 - docker run --env-file .env.test todo-app:test todo_app/tests
 - docker run --env BOARDID --env KEY --env TOKEN todo-app:test todo_app/tests_e2e
