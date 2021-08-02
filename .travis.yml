@@ -16,9 +16,12 @@ script:
 - docker run --env BOARDID --env KEY --env TOKEN todo-app:test todo_app/tests_e2e
 - docker build --tag $DOCKER_USERNAME/todo-production:latest --target production .
 - docker push $DOCKER_USERNAME/todo-production:latest
+- docker tag $DOCKER_USERNAME/todo-production:latest registry.heroku.com/lwtodoapp-production/web
+- docker push registry.heroku.com/lwtodoapp-production/web
+- heroku container:release --app lwtodoapp-production web
 
-deploy:
-  provider: script
-  script: heroku container:release --app lwtodoapp-production web
-  on:
-    branch: master
+#deploy:
+ # provider: script
+  #script: heroku container:release --app lwtodoapp-production web
+  #on:
+   # branch: master
