@@ -100,6 +100,8 @@ To run a test individually, from the console, simply run "pytest test_config.py:
 
 # Deploying the app
 
+The application should deploy automatically via Travis CI from configuration in .travis.yml that will build the image via Docker Hub and push/release it via Heroku when a commit is pushed to the master git branch. To build/push/release the image manually via Docker Hub/Heroku, follow the steps below:
+
         # Build latest local Production image
         docker build --tag todo-app:production --target production .
 
