@@ -16,7 +16,7 @@ script:
 - docker build --tag $DOCKER_USERNAME/todo-production:latest --target production .
 - docker push $DOCKER_USERNAME/todo-production:latest
 - docker tag $DOCKER_USERNAME/todo-production:latest registry.heroku.com/lwtodoapp-production/web
-- docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
+#- docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
 - docker push registry.heroku.com/lwtodoapp-production/web
 - heroku container:release --app lwtodoapp-production web
 deploy:
