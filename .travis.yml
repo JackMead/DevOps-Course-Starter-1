@@ -23,7 +23,6 @@ before_deploy:
 
 deploy:
   provider: script
-  script:
-  - heroku container:release --app lwtodoapp-production web
+  script: heroku container:release --app lwtodoapp-production web
   on:
     branch: module8
