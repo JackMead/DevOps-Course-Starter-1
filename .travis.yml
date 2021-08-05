@@ -13,20 +13,24 @@ script:
 - docker build --tag todo-app:test --target test .
 - docker run --env-file .env.test todo-app:test todo_app/tests
 - docker run --env BOARDID --env KEY --env TOKEN todo-app:test todo_app/tests_e2e
-- docker build --tag $DOCKER_USERNAME/todo-production:latest --target production .
-- docker push $DOCKER_USERNAME/todo-production:latest
-- docker tag $DOCKER_USERNAME/todo-production:latest registry.heroku.com/lwtodoapp-production/web
 
-deploy:
-  provider: heroku
-  api key:
-    secure: "$HEROKU_APIKEY"
-  app:
-    master: lwtodoapp-production web
+before_deploy:
+  provider: script
   api_key:
     secure: Q7h6hWCxP4SeeKBa9zXUPXcy/sv19QlMFqfYTgGpi95QYt4cNQult5PN1uANFKJuGIv5lB2WUbv97nqlI1DWHXLQ07LsYDmlGCsUUUyfghc/Ijk0EGcqXrhcQYcU5VBl7T/3IxdkWfoXjv/BMB6opqpjgfJ/sMp+MdjfnYTXvyaHW3gMyzuYnizfeDtF0ZxCDhgAMG+YZZ2MNWyx0k8OF0DOZFSKA0WJtvVDSanQheVF7T81dI+FPS5vp1jT5jKtg0/zz1lCF07H40sPHCXYkPFH/PGHsdT9+QBvEBuqbpzUm0ki0UTt2R22IMcjO1dto5Md2RJiOTs/69LBmCcBxWf8xVUGmR9VctY5PqAjq6WEOmU4aBepyAT6S81fgBJ23ZzV4p31/4ndrYHHXPHe2A1bsai5HZewDLl0MQUXxwQ2hPPry45fBDyuvmDcXuEdrAtv9YNb3kV/Hy4yu2AL8jMO/c0HdBz49b+MACAc1XD3SGouCdZ5JJ8apD7eaR9HDW9HfHsN+p26JJyQy7uW1CwLHsKqDl602D1XujtfwtGmBtIvTR4ouQ0Ib8X4gxLeOghlem+ZJzlz+OpGY9CD1XDFPdIIU3eN0hD1/C/EnBwN0d3KDru8AUL4wKwuAQ9gbWhzr+aGot8NR0eiGPclZqc2f6k2FSuzRPD4AMhdPOs=
   script:
+  - heroku container:login
+  - docker build --tag $DOCKER_USERNAME/todo-production:latest --target production .
+  - docker push $DOCKER_USERNAME/todo-production:latest
+  - docker tag $DOCKER_USERNAME/todo-production:latest registry.heroku.com/lwtodoapp-production/web
   - docker push registry.heroku.com/lwtodoapp-production/web
+
+
+deploy:
+  provider: script
+  api_key:
+    secure: Q7h6hWCxP4SeeKBa9zXUPXcy/sv19QlMFqfYTgGpi95QYt4cNQult5PN1uANFKJuGIv5lB2WUbv97nqlI1DWHXLQ07LsYDmlGCsUUUyfghc/Ijk0EGcqXrhcQYcU5VBl7T/3IxdkWfoXjv/BMB6opqpjgfJ/sMp+MdjfnYTXvyaHW3gMyzuYnizfeDtF0ZxCDhgAMG+YZZ2MNWyx0k8OF0DOZFSKA0WJtvVDSanQheVF7T81dI+FPS5vp1jT5jKtg0/zz1lCF07H40sPHCXYkPFH/PGHsdT9+QBvEBuqbpzUm0ki0UTt2R22IMcjO1dto5Md2RJiOTs/69LBmCcBxWf8xVUGmR9VctY5PqAjq6WEOmU4aBepyAT6S81fgBJ23ZzV4p31/4ndrYHHXPHe2A1bsai5HZewDLl0MQUXxwQ2hPPry45fBDyuvmDcXuEdrAtv9YNb3kV/Hy4yu2AL8jMO/c0HdBz49b+MACAc1XD3SGouCdZ5JJ8apD7eaR9HDW9HfHsN+p26JJyQy7uW1CwLHsKqDl602D1XujtfwtGmBtIvTR4ouQ0Ib8X4gxLeOghlem+ZJzlz+OpGY9CD1XDFPdIIU3eN0hD1/C/EnBwN0d3KDru8AUL4wKwuAQ9gbWhzr+aGot8NR0eiGPclZqc2f6k2FSuzRPD4AMhdPOs=
+  script:
   - heroku container:release --app lwtodoapp-production web
   on:
-    branch: master
+    branch: module8
