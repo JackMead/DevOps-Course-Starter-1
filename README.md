@@ -98,3 +98,40 @@ To test the app, install and run "poetry run pytest" in the root folder (above "
 
 To run a test individually, from the console, simply run "pytest test_config.py::*name_of_test_function*".
 
+# Deploying the app
+
+The application should deploy automatically via Travis CI from configuration in .travis.yml that will build the image via Docker Hub and push/release it via Heroku when a commit is pushed to the master git branch. To build/push/release the image manually via Docker Hub/Heroku, follow the steps below:
+
+        # Build latest local Production image
+        docker build --tag todo-app:production --target production .
+
+        # Tag latest local Production image for Docker Hub
+        docker tag todo-app:production lukeemcl/todo-production:latest
+
+        # Push to Docker Hub
+        docker push lukeemcl/todo-production:latest
+
+        # Get the latest image from Docker Hub (built by your CI pipeline)
+        $ docker pull lukeemcl/todo-production:latest
+
+        # Tag it for Heroku
+        $ docker tag lukeemcl/todo-production:latest registry.heroku.com/lwtodoapp-production/web
+
+        # Push it to Heroku registry
+        $ docker push registry.heroku.com/lwtodoapp-production/web
+
+        # Login to Heroku
+        heroku login
+
+        # Login to the Heroku Container
+        heroku container:login
+
+        # Release the image via Heroku
+        heroku container:release --app lwtodoapp-production web
+        
+        # Open app via browser
+        heroku open --app lwtodoapp-production
+
+        # View app logs if there is an issue
+        heroku logs --tail --app lwtodoapp-production
+
