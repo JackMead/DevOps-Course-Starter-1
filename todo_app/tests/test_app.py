@@ -1,6 +1,6 @@
 import pytest, os, json, pymongo, mongomock
 from dotenv import find_dotenv, load_dotenv
-from todo_app.data.todo_items import TodoCard, ViewModel
+from todo_app.data.todo_items import ToDoCard, ViewModel
 import todo_app.app
 from unittest.mock import patch, Mock
 

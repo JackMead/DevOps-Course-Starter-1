@@ -15,7 +15,7 @@ script:
 - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
 - docker build --tag todo-app:test --target test .
 - docker run --env-file .env.test todo-app:test todo_app/tests
-- docker run --env MDB_URL --env MDB_DBNAME --env TOKEN todo-app:test todo_app/tests_e2e
+- docker run --env MDB_URL --env MDB_DBNAME todo-app:test todo_app/tests_e2e
 
 before_deploy:
   - heroku container:login
