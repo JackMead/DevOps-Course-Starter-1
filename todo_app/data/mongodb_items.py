@@ -1,6 +1,7 @@
-import requests, json, os, datetime
+from pymongo import mongo_client
+import requests, json, os, datetime, pymongo
 
-class TrelloCard:
+class ToDoCard:
     def __init__(self, id, name, idList, due, description, modified):
         self.id = id
         self.name = name
@@ -8,6 +9,9 @@ class TrelloCard:
         self.due = due
         self.description = description
         self.modified = modified
+    
+    def get_card_as_dictionary(self):
+        return {'name' : self.name, 'idList' : self.idList, 'due_date' : self.due_date, 'description' : self.description, 'modified' : self.modified}
 
 class ViewModel:
     def __init__(self, items, lists):
@@ -67,104 +71,60 @@ class ViewModel:
                 items.append(item)
         return items
 
-def get_credential_username():
-    cred_username = os.environ.get('MDB_USERNAME')
-    return cred_username
-
-def get_credential_password():
-    cred_password = os.environ.get('MDB_PASSWORD')
-    return cred_password
-
-
 def get_mongodb_url():
     mongodb_url = os.environ.get('MDB_URL')
-
     return mongodb_url
 
-def get_trello_cards():
-    board_id = get_trello_board_id()
-    getcardparams = {'key': get_credential_key(), 'token': get_credential_token()}
-    cardresults = requests.get(f'https://api.trello.com/1/boards/{board_id}/cards', params=getcardparams)
-    cards = cardresults.json()
+def connect_mongodb():
+    mongodb_url = get_mongodb_url()
+    mongo_client = pymongo.MongoClient(mongodb_url)
+    db_name = os.environ.get('MDB_DBNAME')
+    db = mongo_client[db_name]
+    return db
+
+def get_todo_cards():
+    db = connect_mongodb()
+    collections = db.list_collection_names()
+    
     all_cards = []
-    for c in cards:
-        if c['due'] == None:
-            duedate = "No Due Date Specified"
-        else:
-            duedate = datetime.datetime.strptime(str(c['due']), '%Y-%m-%dT%H:%M:%S.%fZ')
-        item_modified_date = str(c['dateLastActivity'])
-        split_modified_date_from_milliseconds = item_modified_date.split('.')
-        modified_date = datetime.datetime.strptime(str(split_modified_date_from_milliseconds[0]), '%Y-%m-%dT%H:%M:%S')
-
-        c = TrelloCard(c['id'], c['name'], c['idList'], duedate, c['desc'], modified_date)
-        all_cards.append(c)
-
+    for c in collections:
+        collection = db[c]
+        for card in collection.find({}):
+            all_cards.append(ToDoCard(card['_id'], card['name'], card['idList'], card['due_date'], card['description'], card['modified']))
+            
     return all_cards
 
-def get_trello_cards_from_list(list):
-    alllists = get_trello_lists()
-    for l in alllists:
-        if l['name'] == list:
-            desired_list_id = l['id']
-    getcardfromlistparams = {'key': get_credential_key(), 'token': get_credential_token()}
-    cardfromlistresults = requests.get(f'https://api.trello.com/1/lists/{desired_list_id}/cards', params=getcardfromlistparams)
-    cards = cardfromlistresults.json()
-    list_cards = []
-    for c in cards:
-        if c['due'] == None:
-            duedate = "No Due Date Specified"
-        else:
-            duedate = datetime.datetime.strptime(str(c['due']), '%Y-%m-%dT%H:%M:%S.%fZ')
-        item_modified_date = str(c['dateLastActivity'])
-        split_modified_date_from_milliseconds = item_modified_date.split('.')
-        modified_date = datetime.datetime.strptime(str(split_modified_date_from_milliseconds[0]), '%Y-%m-%dT%H:%M:%S')
+def create_todo_card(new_card):
+    db = connect_mongodb()
+    card = new_card.get_card_as_dictionary()
+    db['todo'].insert_one(card)
 
-        c = TrelloCard(c['id'], c['name'], c['idList'], duedate, c['desc'], modified_date)
-        list_cards.append(c)
+def move_todo_card(card_id, new_list_id):
+    db = connect_mongodb()
+    collections = db.list_collection_names()
 
-    return list_cards
+    for c in collections:
+        collection = db[c]
+        for card in collection.find({}): 
+            if str(card['_id']) == str(card_id):
+                new_card = ToDoCard(0, card['name'], new_list_id, card['due_date'], card['description'], datetime.datetime.today())
+                new_collection = db[new_list_id]
+                new_collection.insert_one(new_card.get_card_as_dictionary())
+                result = collection.delete_one({'_id' : card['_id']})
+                print(result)
+                break
 
-def get_trello_lists():
-    board_id = get_trello_board_id()
-    getlistparams = {'key': get_credential_key(), 'token': get_credential_token()}
-    listresults = requests.get(f'https://api.trello.com/1/boards/{board_id}/lists', params=getlistparams)
-    lists = listresults.json()
+def create_test_db(db_name):
+    db_connection = connect_mongodb()
+    mongo_client = pymongo.MongoClient(db_connection)
+    db = mongo_client[db_name]
+    db['todo']
+    db['doing']
+    db['done']
 
-    return lists
+    return db_name
 
-def get_trello_list_id(list_name):
-    alllists = get_trello_lists()
-    for l in alllists:
-        if l['name'] == list_name:
-            desired_list_id = l['id']
-    return desired_list_id
-
-def create_new_trello_card(card_name, card_description):
-    lists = get_trello_lists()
-    duedate = str(datetime.datetime.today() + datetime.timedelta(days=30))
-    split_item_duedate = duedate.split(".")
-    newitemduedate = datetime.datetime.strptime(split_item_duedate[0], '%Y-%m-%d %H:%M:%S')
-    for l in lists:
-        if l['name'] == "To Do":
-            desired_list_id = l['id']
-    createcardparams = {'key': get_credential_key(), 'token': get_credential_token(), 'idList': desired_list_id, 'name': card_name, 'desc': card_description, 'due': str(newitemduedate)}
-    requests.post('https://api.trello.com/1/cards', params=createcardparams)
-
-def move_trello_card(card_id, new_list_id):
-    movecardparams = {'key': get_credential_key(), 'token': get_credential_token(), 'idList': new_list_id}
-    requests.put(f'https://api.trello.com/1/cards/{card_id}', params=movecardparams)
-
-def delete_trello_card(card_id):
-    deletecardparams = {'key': get_credential_key(), 'token': get_credential_token()}
-    requests.delete(f'https://api.trello.com/1/cards/{card_id}', params=deletecardparams)
-
-def create_trello_board(board_name):
-    createboardparams = {'key': get_credential_key(), 'token': get_credential_token(), 'name': board_name}
-    response = requests.post(f'https://api.trello.com/1/boards', params=createboardparams)
-    new_board = response.json()
-    return new_board['id']
- 
-def delete_trello_board(board_id):
-    deleteboardparams = {'key': get_credential_key(), 'token': get_credential_token()}
-    board_id_to_remove = board_id
-    requests.delete(f'https://api.trello.com/1/boards/{board_id_to_remove}', params=deleteboardparams)
+def delete_test_db(db_name):
+    db_connection = connect_mongodb()
+    mongo_client = pymongo.MongoClient(db_connection)
+    mongo_client.drop_database(db_name)
