@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect
-import requests, json, os, datetime, operator
+import requests, json, os, datetime, operator, pymongo
+from pymongo import mongo_client
 
 from todo_app.flask_config import Config
-from todo_app.data.trello_items import get_trello_board_id, get_trello_cards, get_trello_lists, create_new_trello_card, move_trello_card, ViewModel, get_trello_cards_from_list, get_trello_list_id, delete_trello_card, create_trello_board, delete_trello_board
+from todo_app.data.todo_items import get_todo_cards, create_todo_card, move_todo_card, ToDoCard, ViewModel
 
 def create_app():
     app = Flask(__name__)
@@ -10,8 +11,8 @@ def create_app():
 
     @app.route('/')
     def index():
-        alllistids = {'todo':get_trello_list_id('To Do'),'doing':get_trello_list_id('Doing'),'done':get_trello_list_id('Done')}
-        items = get_trello_cards()
+        alllistids = {'todo':'todo','doing':'doing','done':'done'}
+        items = get_todo_cards()
         item_view_model = ViewModel(items, alllistids)
         return render_template('index.html', view_model=item_view_model)
 
@@ -19,32 +20,32 @@ def create_app():
     def addtolist():
         newitemtitle = request.form.get('title')
         newitemdescription = request.form.get('desc')
-        create_new_trello_card(newitemtitle, newitemdescription)
+        create_todo_card(newitemtitle, newitemdescription)
         return redirect(request.headers.get('Referer'))
 
     @app.route('/update', methods=['POST'])
     def movetolist():
-        allcards = get_trello_cards()
-        lists = get_trello_lists()
+        allcards = get_todo_cards()
+        lists = {'todo':'todo','doing':'doing','done':'done'}
         for card in allcards:
-            if request.form.get("inprogcheck_" + card.id) == card.id:
+            if request.form.get("inprogcheck_" + card.id) == card._id:
                 for l in lists:
                     if l['name'] == "Doing":
                         desired_list_id = l['id']
-                        move_trello_card(card.id, desired_list_id)
-            if request.form.get("donecheck_" + card.id) == card.id:
+                        move_todo_card(card.id, desired_list_id)
+            if request.form.get("donecheck_" + card.id) == card._id:
                 for l in lists:
                     if l['name'] == "Done":
                         desired_list_id = l['id']
-                        move_trello_card(card.id, desired_list_id)
-            if request.form.get("deletecheck_" + card.id) == card.id:
-                delete_trello_card(card.id)
+                        move_todo_card(card.id, desired_list_id)
+            #if request.form.get("deletecheck_" + card.id) == card._id:
+            #    delete_todo_card(card.id)
         return redirect(request.headers.get('Referer'))
 
     @app.route('/show_older_done_items', methods=['POST'])
     def show_older_completed_items():
-        alllistids = {'todo':get_trello_list_id('To Do'),'doing':get_trello_list_id('Doing'),'done':get_trello_list_id('Done')}
-        items = get_trello_cards()
+        alllistids = {'todo':'todo','doing':'doing','done':'done'}
+        items = get_todo_cards()
         item_view_model = ViewModel(items, alllistids)
         return render_template('showolderitems.html', view_model=item_view_model)
     
