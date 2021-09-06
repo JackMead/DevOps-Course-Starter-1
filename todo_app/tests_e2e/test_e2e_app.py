@@ -1,6 +1,6 @@
 import os, pytest
 from threading import Thread
-from todo_app.data.todo_items import create_test_db,delete_test_db
+from todo_app.data.todo_items import create_test_db, delete_test_db
 from todo_app import app
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
