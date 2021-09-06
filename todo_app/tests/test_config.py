@@ -1,18 +1,19 @@
 import pytest, datetime
-from todo_app.data.trello_items import ViewModel, TrelloCard
+from todo_app.data.todo_items import ViewModel, TodoCard
+
 
 @pytest.fixture
 def dummy_card_list():
     today = datetime.date.today()
     all_cards = [
-        TrelloCard(1,"Test Card 1",999,today,"Dummy Description 1",today - datetime.timedelta(days=8)),
-        TrelloCard(2,"Test Card 2",998,today - datetime.timedelta(days=2),"Dummy Description 2", today - datetime.timedelta(days=7)),
-        TrelloCard(3,"Test Card 3",997,today - datetime.timedelta(days=3),"Dummy Description 3", today - datetime.timedelta(days=6)),
-        TrelloCard(4,"Test Card 4",999,today - datetime.timedelta(days=4),"Dummy Description 4", today),
-        TrelloCard(5,"Test Card 5",999,today,"Dummy Description 5", today - datetime.timedelta(days=4)),
-        TrelloCard(6,"Test Card 6",998,today - datetime.timedelta(days=6),"Dummy Description 6", today - datetime.timedelta(days=3)),
-        TrelloCard(7,"Test Card 7",997,today - datetime.timedelta(days=7),"Dummy Description 7", today - datetime.timedelta(days=2)),
-        TrelloCard(8,"Test Card 8",997,today - datetime.timedelta(days=8),"Dummy Description 8", today)
+        TodoCard(1,"Test Card 1",999,today,"Dummy Description 1",today - datetime.timedelta(days=8)),
+        TodoCard(2,"Test Card 2",998,today - datetime.timedelta(days=2),"Dummy Description 2", today - datetime.timedelta(days=7)),
+        TodoCard(3,"Test Card 3",997,today - datetime.timedelta(days=3),"Dummy Description 3", today - datetime.timedelta(days=6)),
+        TodoCard(4,"Test Card 4",999,today - datetime.timedelta(days=4),"Dummy Description 4", today),
+        TodoCard(5,"Test Card 5",999,today,"Dummy Description 5", today - datetime.timedelta(days=4)),
+        TodoCard(6,"Test Card 6",998,today - datetime.timedelta(days=6),"Dummy Description 6", today - datetime.timedelta(days=3)),
+        TodoCard(7,"Test Card 7",997,today - datetime.timedelta(days=7),"Dummy Description 7", today - datetime.timedelta(days=2)),
+        TodoCard(8,"Test Card 8",997,today - datetime.timedelta(days=8),"Dummy Description 8", today)
     ]
     return all_cards
 

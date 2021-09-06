@@ -1,6 +1,6 @@
 import os, pytest
 from threading import Thread
-from todo_app.data.trello_items import create_trello_board, delete_trello_board
+from todo_app.data.todo_items import create_test_db,delete_test_db
 from todo_app import app
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
@@ -10,8 +10,8 @@ from dotenv import find_dotenv,load_dotenv
 def app_with_temp_board():
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
-    board_id = create_trello_board("TestBoard")
-    os.environ['BOARDID'] = board_id
+    db_name = create_test_db("Test_ToDo_App")
+    os.environ['MONGO_DB_NAME'] = db_name
     
     
     application = app.create_app()
@@ -22,7 +22,7 @@ def app_with_temp_board():
     yield app
 
     thread.join(1)
-    delete_trello_board(board_id)
+    delete_test_db(db_name)
 
 @pytest.fixture(scope="module")
 def driver():
