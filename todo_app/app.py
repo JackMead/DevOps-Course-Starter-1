@@ -28,15 +28,15 @@ def create_app():
         allcards = get_todo_cards()
         lists = {'ToDo':'ToDo','Doing':'Doing','Done':'Done'}
         for card in allcards:
-            if request.form.get("inprogcheck_" + card.id) == card._id:
+            if request.form.get("inprogcheck_" + str(card.id)) == str(card.id):
                 for l in lists:
-                    if l['name'] == "Doing":
-                        desired_list_id = l['id']
+                    if l == "Doing":
+                        desired_list_id = l
                         move_todo_card(card.id, desired_list_id)
-            if request.form.get("donecheck_" + card.id) == card._id:
+            if request.form.get("donecheck_" + str(card.id)) == str(card.id):
                 for l in lists:
-                    if l['name'] == "Done":
-                        desired_list_id = l['id']
+                    if l == "Done":
+                        desired_list_id = l
                         move_todo_card(card.id, desired_list_id)
             #if request.form.get("deletecheck_" + card.id) == card._id:
             #    delete_todo_card(card.id)

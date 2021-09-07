@@ -11,7 +11,7 @@ class ToDoCard:
         self.modified = modified
     
     def get_card_as_dictionary(self):
-        return {'name' : self.name, 'idList' : self.idList, 'due_date' : self.due_date, 'description' : self.description, 'modified' : self.modified}
+        return {'name' : self.name, 'idList' : self.idList, 'due' : self.due, 'description' : self.description, 'modified' : self.modified}
 
 class ViewModel:
     def __init__(self, items, lists):
@@ -90,12 +90,13 @@ def get_todo_cards():
     for c in collections:
         collection = db[c]
         for card in collection.find({}):
-            all_cards.append(ToDoCard(card['_id'], card['name'], card['idList'], card['due_date'], card['description'], card['modified']))
+            all_cards.append(ToDoCard(card['_id'], card['name'], card['idList'], card['due'], card['description'], card['modified']))
             
     return all_cards
 
-def create_todo_card(new_card):
+def create_todo_card(new_cardtitle, new_carddesc):
     db = connect_mongodb()
+    new_card = ToDoCard(None, new_cardtitle, "ToDo", datetime.datetime.today(), new_carddesc, datetime.datetime.today())
     card = new_card.get_card_as_dictionary()
     db['ToDo'].insert_one(card)
 
@@ -107,7 +108,7 @@ def move_todo_card(card_id, new_list_id):
         collection = db[c]
         for card in collection.find({}): 
             if str(card['_id']) == str(card_id):
-                new_card = ToDoCard(0, card['name'], new_list_id, card['due_date'], card['description'], datetime.datetime.today())
+                new_card = ToDoCard(0, card['name'], new_list_id, card['due'], card['description'], datetime.datetime.today())
                 new_collection = db[new_list_id]
                 new_collection.insert_one(new_card.get_card_as_dictionary())
                 result = collection.delete_one({'_id' : card['_id']})
