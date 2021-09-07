@@ -10,8 +10,8 @@ from dotenv import find_dotenv,load_dotenv
 def app_with_temp_board():
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
-    db_name = create_test_db("Test_ToDo_App")
-    os.environ['MDB_DBNAME'] = db_name
+    db_name = create_test_db('test_app')
+    os.environ['MONGO_DB_NAME'] = db_name
     
     
     application = app.create_app()

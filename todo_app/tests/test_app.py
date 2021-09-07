@@ -22,8 +22,10 @@ def test_index_page(client):
 
 @mongomock.patch(servers=(('testmongo.com', 27017),))
 def test_add_item():
-    db_connection = os.getenv('MDB_URL')
-    db_name = os.getenv('MDB_DBNAME')
+    file_path = find_dotenv('.env.test')
+    load_dotenv(file_path, override=True)
+    db_connection = os.getenv('MONGO_DB_CONNECTION')
+    db_name = os.getenv('MONGO_DB_NAME')
     connection = pymongo.MongoClient(db_connection)
     db = connection[db_name]
     item = {"name" : "test card"}

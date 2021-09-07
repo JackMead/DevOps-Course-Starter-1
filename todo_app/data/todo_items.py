@@ -72,13 +72,13 @@ class ViewModel:
         return items
 
 def get_mongodb_url():
-    mongodb_url = os.environ.get('MDB_URL')
+    mongodb_url = os.environ.get('MONGO_DB_CONNECTION')
     return mongodb_url
 
 def connect_mongodb():
     mongodb_url = get_mongodb_url()
     mongo_client = pymongo.MongoClient(mongodb_url)
-    db_name = os.environ.get('MDB_DBNAME')
+    db_name = os.environ.get('MONGO_DB_NAME')
     db = mongo_client[db_name]
     return db
 
