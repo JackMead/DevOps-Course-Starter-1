@@ -26,7 +26,7 @@ class TestTrello():
 
     @staticmethod
     def test_todo_items(dummy_card_list, list_ids):
-        todo_list_id = list_ids['Dodo']
+        todo_list_id = list_ids['ToDo']
         view_model = ViewModel(dummy_card_list, list_ids)
         
         all_todo_items = view_model.todo
