@@ -13,12 +13,12 @@ def client():
         with test_app.test_client() as client:
             yield client
 
-@patch('requests.get')
 def test_index_page(client):
     response = client.get('/')
 
     assert b'To Do' in response.data
-    assert b'Finish project' in response.data
+    assert b'Doing' in response.data
+    #assert b'Finish project' in response.data
 
 @mongomock.patch(servers=(('testmongo.com', 27017),))
 def test_add_item():

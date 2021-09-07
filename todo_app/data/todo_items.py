@@ -29,7 +29,7 @@ class ViewModel:
     def todo(self):
         items = []
         for item in self._items:
-            if item.idList == self._lists['todo']:
+            if item.idList == self._lists['ToDo']:
                 items.append(item)
         return items
 
@@ -37,7 +37,7 @@ class ViewModel:
     def doing(self):
         items = []
         for item in self._items:
-            if item.idList == self._lists['doing']:
+            if item.idList == self._lists['Doing']:
                 items.append(item)
         return items
 
@@ -45,7 +45,7 @@ class ViewModel:
     def done(self):
         items = []
         for item in self._items:
-            if item.idList == self._lists['done']:
+            if item.idList == self._lists['Done']:
                 items.append(item)
         return items
 
@@ -56,7 +56,7 @@ class ViewModel:
             modified_date = str(item.modified)
             completed_date = modified_date.split(" ")
             todays_date = datetime.date.today()
-            if item.idList == self._lists['done'] and completed_date[0] == str(todays_date):
+            if item.idList == self._lists['Done'] and completed_date[0] == str(todays_date):
                 items.append(item)
         return items
 
@@ -67,7 +67,7 @@ class ViewModel:
             modified_date = str(item.modified)
             completed_date = modified_date.split(" ")
             todays_date = datetime.date.today()
-            if item.idList == self._lists['done'] and completed_date[0] != str(todays_date):
+            if item.idList == self._lists['Done'] and completed_date[0] != str(todays_date):
                 items.append(item)
         return items
 
@@ -97,7 +97,7 @@ def get_todo_cards():
 def create_todo_card(new_card):
     db = connect_mongodb()
     card = new_card.get_card_as_dictionary()
-    db['todo'].insert_one(card)
+    db['ToDo'].insert_one(card)
 
 def move_todo_card(card_id, new_list_id):
     db = connect_mongodb()
@@ -115,16 +115,16 @@ def move_todo_card(card_id, new_list_id):
                 break
 
 def create_test_db(db_name):
-    db_connection = connect_mongodb()
+    db_connection = get_mongodb_url()
     mongo_client = pymongo.MongoClient(db_connection)
     db = mongo_client[db_name]
-    db['todo']
-    db['doing']
-    db['done']
+    db['ToDo']
+    db['Doing']
+    db['Done']
 
     return db_name
 
 def delete_test_db(db_name):
-    db_connection = connect_mongodb()
+    db_connection = get_mongodb_url()
     mongo_client = pymongo.MongoClient(db_connection)
     mongo_client.drop_database(db_name)

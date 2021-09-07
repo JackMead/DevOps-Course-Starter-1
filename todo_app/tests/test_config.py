@@ -19,14 +19,14 @@ def dummy_card_list():
 
 @pytest.fixture
 def list_ids():
-    trello_list_ids = {"todo": 999, "doing": 998, "done": 997}
+    trello_list_ids = {"ToDo": 999, "Doing": 998, "Done": 997}
     return trello_list_ids
 
 class TestTrello():
 
     @staticmethod
     def test_todo_items(dummy_card_list, list_ids):
-        todo_list_id = list_ids['todo']
+        todo_list_id = list_ids['Dodo']
         view_model = ViewModel(dummy_card_list, list_ids)
         
         all_todo_items = view_model.todo
@@ -36,7 +36,7 @@ class TestTrello():
 
     @staticmethod
     def test_doing_items(dummy_card_list, list_ids):
-        doing_list_id = list_ids['doing']
+        doing_list_id = list_ids['Doing']
         view_model = ViewModel(dummy_card_list, list_ids)
         
         all_doing_items = view_model.doing
@@ -46,7 +46,7 @@ class TestTrello():
 
     @staticmethod
     def test_all_done_items(dummy_card_list, list_ids):
-        done_list_id = list_ids['done']
+        done_list_id = list_ids['Done']
         view_model = ViewModel(dummy_card_list, list_ids)
         
         all_done_items = view_model.done

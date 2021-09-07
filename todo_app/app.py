@@ -11,7 +11,7 @@ def create_app():
 
     @app.route('/')
     def index():
-        alllistids = {'todo':'todo','doing':'doing','done':'done'}
+        alllistids = {'ToDo':'ToDo','Doing':'Doing','Done':'Done'}
         items = get_todo_cards()
         item_view_model = ViewModel(items, alllistids)
         return render_template('index.html', view_model=item_view_model)
@@ -26,7 +26,7 @@ def create_app():
     @app.route('/update', methods=['POST'])
     def movetolist():
         allcards = get_todo_cards()
-        lists = {'todo':'todo','doing':'doing','done':'done'}
+        lists = {'ToDo':'ToDo','Doing':'Doing','Done':'Done'}
         for card in allcards:
             if request.form.get("inprogcheck_" + card.id) == card._id:
                 for l in lists:
@@ -44,7 +44,7 @@ def create_app():
 
     @app.route('/show_older_done_items', methods=['POST'])
     def show_older_completed_items():
-        alllistids = {'todo':'todo','doing':'doing','done':'done'}
+        alllistids = {'ToDo':'ToDo','Doing':'Doing','Done':'Done'}
         items = get_todo_cards()
         item_view_model = ViewModel(items, alllistids)
         return render_template('showolderitems.html', view_model=item_view_model)
