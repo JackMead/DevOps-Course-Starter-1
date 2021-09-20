@@ -106,13 +106,15 @@ def move_todo_card(card_id, new_list_id):
 
     for c in collections:
         collection = db[c]
-        card = collection.find_one({"_id": card_id})
-        new_card = ToDoCard(0, card['name'], new_list_id, card['due'], card['description'], datetime.datetime.today())
-        new_collection = db[new_list_id]
-        new_collection.insert_one(new_card.get_card_as_dictionary())
-        result = collection.delete_one({'_id' : card['_id']})
-        print(result)
-        break
+        for card in collection.find({}): 
+            if str(card['_id']) == str(card_id):
+
+                new_card = ToDoCard(0, card['name'], new_list_id, card['due'], card['description'], datetime.datetime.today())
+                new_collection = db[new_list_id]
+                new_collection.insert_one(new_card.get_card_as_dictionary())
+                result = collection.delete_one({'_id' : card['_id']})
+                print(result)
+                break
 
 def delete_todo_card(card_id):
     db = connect_mongodb()

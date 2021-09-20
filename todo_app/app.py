@@ -38,7 +38,7 @@ def create_app():
                     if l == "Done":
                         desired_list_id = l
                         move_todo_card(card.id, desired_list_id)
-            if request.form.get("deletecheck_" + card.id) == card._id:
+            if request.form.get("deletecheck_" + str(card.id)) == str(card.id):
                 delete_todo_card(card.id)
         return redirect(request.headers.get('Referer'))
 
