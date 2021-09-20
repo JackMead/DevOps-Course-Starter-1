@@ -3,7 +3,7 @@ import requests, json, os, datetime, operator, pymongo
 from pymongo import mongo_client
 
 from todo_app.flask_config import Config
-from todo_app.data.todo_items import get_todo_cards, create_todo_card, move_todo_card, ToDoCard, ViewModel
+from todo_app.data.todo_items import get_todo_cards, create_todo_card, move_todo_card, delete_todo_card, ToDoCard, ViewModel
 
 def create_app():
     app = Flask(__name__)
@@ -38,8 +38,8 @@ def create_app():
                     if l == "Done":
                         desired_list_id = l
                         move_todo_card(card.id, desired_list_id)
-            #if request.form.get("deletecheck_" + card.id) == card._id:
-            #    delete_todo_card(card.id)
+            if request.form.get("deletecheck_" + card.id) == card._id:
+                delete_todo_card(card.id)
         return redirect(request.headers.get('Referer'))
 
     @app.route('/show_older_done_items', methods=['POST'])
