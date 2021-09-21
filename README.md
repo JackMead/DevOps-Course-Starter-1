@@ -1,14 +1,13 @@
 Welcome to Luke's To Do App...
 
-# Trello account set up
+# Mongo account set up
 
-For this To Do App site to work, you will need to create a Trello account (http://trello.com), and a Trello board which has three lists called (Default): 
+For this To Do App site to work, you will need to create a free Mongo account (https://www.mongodb.com/), and a database which has three collections called: 
 - "To Do" (Items that you still need to start)
 - "Doing" (Items that are currently in progress)
 - "Done" (Items that have been completed)
 
-You will need to create a Trello API key from your account online (follow this guide: https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction) and add the KEY and TOKEN values into the .env file. Once you have done this, you can use Postman (or other) to query the API (using the KEY and TOKEN for authentication) to get your BOARDID. Once you have this, you will need to add this into the BOARDID value
-in the .env file as well. The .env.template file has been updated to show the format required.
+You will need to create a MongoDB connection string account online and add the MONGO_DB_CONNECTION and MONGO_DB_NAME values into the .env file. The .env.template file has been updated to show the format required.
 
 # Setting up the app
 
@@ -82,11 +81,10 @@ Development image: `docker run -d -p 5000:5000 --env-file .env --mount type=bind
 
 This App will show you a list of all of your To Do items, categorised by their status (or list name), showing the item ID, name, description, due date, last modified date.
 
-You can add new To Do items by adding typing the item name and description into the fields at the top and press the top "Add To-Do Item" button. This will add a new item
-via the Trello API with no due date into the "To Do" list.
+You can add new To Do items by adding typing the item name and description into the fields at the top and press the top "Add To-Do Item" button. This will add a new item with no due date into the "To Do" collection.
 
-You can tick boxes to change the status of the item by ticking "Mark as In Progress", "Mark as Complete" or "Archive". The first two options will move the card to the 
-correct list and the "Archive" option will archive the item so that it is no longer visible as an active item in Trello.
+You can tick boxes to change the status of the item by ticking "Mark as In Progress", "Mark as Complete" or "Delete Item". The first two options will move the card to the 
+correct collection and the "Delete Item" option will delete the card so that it is no longer in the MongoDB.
 
 Items are shown as per their status. With the "Completed Items", if there are 5 or less completed items, all of those items will be shown regardless of status.
 However, if there are more than 5, it will show you the items that have been marked as complete today. If you wish to view ALL of the completed items regardless
@@ -94,7 +92,7 @@ of the completion date, please click the "Show Older Completed Items" to view al
 
 # Testing the app
 
-To test the app, install and run "poetry run pytest" in the root folder (above "todo_app" folder) and it will run through the tests specified in "tests" and "tests_e2e" folders. The tests in the "tests" folder will run tests on the functionailty of the app based on dummy data that is hard coded into the "test_config.py" file. Whereas the tests in the "tests_e2e" folder will test all functionality of the app. If all tests are successful, it means that the logic in the app is working correctly with the data from Trello. If there are failures, you will need to work out what it causing them. It is most likely going to be an issue with the set up/configuration of python/pytest/poetry, or the dummy data has been modified incorrectly.
+To test the app, install and run "poetry run pytest" in the root folder (above "todo_app" folder) and it will run through the tests specified in "tests" and "tests_e2e" folders. The tests in the "tests" folder will run tests on the functionailty of the app based on dummy data that is hard coded into the "test_config.py" file. Whereas the tests in the "tests_e2e" folder will test all functionality of the app. If all tests are successful, it means that the logic in the app is working correctly with the data from MongoDB. If there are failures, you will need to work out what it causing them. It is most likely going to be an issue with the set up/configuration of python/pytest/poetry, or the dummy data has been modified incorrectly.
 
 To run a test individually, from the console, simply run "pytest test_config.py::*name_of_test_function*".
 
