@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+{% block title %}To-Do App{% endblock %}
+
+{% block content %}
+  <div class="jumbotron">
+    <h1 class="display-4">Luke Woods' To-Do App</h1>
+    <p class="lead">To-Do app to organise your day.</p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <br>
+        <h2>To Do Items</h2>
+        <ul class="list-group mb-4">
+          <table class="table table-bordered">
+            <thead class="thead-light">
+            <tr>
+              <th scope=col>ID</th>
+              <th scope=col>Title</th>
+              <th scope=col>Due Date</th>
+              <th scope=col>Description</th>
+              <th scope=col>Last Modified</th>
+            </tr>
+            </thead>
+            {% for item in view_model.todo %}
+            <tr>
+              <th scope=row id="ToDo_{{item.id}}">{{item.id}}</th>
+              <td>{{item.name}}</td>
+              <td>{{item.due}}</td>
+              <td>{{item.description}}</td>
+              <td>{{item.modified}}</td>
+            </tr>
+            {% endfor %}
+          </table>  
+        </ul>
+        <h2>Doing Items</h2>
+      <ul class="list-group mb-4">
+        <table class="table table-bordered">
+          <thead class="thead-light">
+          <tr>
+            <th scope=col>ID</th>
+            <th scope=col>Title</th>
+            <th scope=col>Due Date</th>
+            <th scope=col>Description</th>
+            <th scope=col>Last Modified</th>
+          </tr>
+          </thead>
+
+          {% for item in view_model.doing %}
+          <tr>
+            <th scope=row id="Doing_{{item.id}}">{{item.id}}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.due}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.modified}}</td>
+          </tr>
+          {% endfor %}
+        </table>  
+      </ul>
+      <h2>Completed Items</h2>
+      <ul class="list-group mb-4">
+        <table class="table table-bordered">
+          <thead class="thead-light">
+          <tr>
+            <th scope=col>ID</th>
+            <th scope=col>Title</th>
+            <th scope=col>Due Date</th>
+            <th scope=col>Description</th>
+            <th scope=col>Last Modified</th>
+          </tr>
+          </thead>
+
+            {% if (view_model.done|length) >= 5 %}
+              {% for item in view_model.done_today %}
+              <tr>
+                <th scope=row>{{item.id}}</th>
+                <td>{{item.name}}</td>
+                <td>{{item.due}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.modified}}</td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              {% for item in view_model.done %}
+              <tr>
+                <th scope=row>{{item.id}}</th>
+                <td>{{item.name}}</td>
+                <td>{{item.due}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.modified}}</td>
+              </tr>
+              {% endfor %}
+            {% endif %}  
+        </table>  
+      </ul>
+    </div>
+    <form action="/show_older_done_items" method="POST" class="form-example">
+      <input type="submit" id="show_older_done_items" class="btn btn-dark" value="Show Older Completed Items">
+    </form>
+  </div>
+  
+{% endblock %}

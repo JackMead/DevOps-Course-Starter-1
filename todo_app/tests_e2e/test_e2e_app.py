@@ -10,6 +10,9 @@ from dotenv import find_dotenv,load_dotenv
 def app_with_temp_board():
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
+    test_login = 'True'
+    os.environ['LOGIN_DISABLED'] = test_login
+    
     db_name = create_test_db('test_app')
     os.environ['MONGO_DB_NAME'] = db_name
     
