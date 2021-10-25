@@ -25,7 +25,7 @@ def load_user(github_user):
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    app.secret_key = os.urandom(24)
+    app.secret_key = os.environ.get('SECRET_KEY')
     app.config['LOGIN_DISABLED'] = os.environ.get('LOGIN_DISABLED', 'False').lower() in ['true', '1']
     login_manager.init_app(app)
 
@@ -42,9 +42,9 @@ def create_app():
             elif current_user.role == 'reader':
                 return render_template('indexreadonly.html', view_model=item_view_model)
             else:
-                return render_template('index.html', view_model=item_view_model)
+                return render_template('indexreadonly.html', view_model=item_view_model)
         else:
-            return render_template('index.html', view_model=item_view_model)
+            return render_template('indexreadonly.html', view_model=item_view_model)
 
 
     @app.route('/add_new', methods=['POST'])
