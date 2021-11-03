@@ -13,6 +13,7 @@ class ToDoCard:
     def get_card_as_dictionary(self):
         return {'name' : self.name, 'idList' : self.idList, 'due' : self.due, 'description' : self.description, 'modified' : self.modified}
 
+
 class ViewModel:
     def __init__(self, items, lists):
         self._items = items
